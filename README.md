@@ -1,28 +1,13 @@
-# unplugin-starter
+# unplugin-css2vars
 
-[![NPM version](https://img.shields.io/npm/v/unplugin-starter?color=a1b858&label=)](https://www.npmjs.com/package/unplugin-starter)
+提取项目中的css替换为css变量
 
-Starter template for [unplugin](https://github.com/unjs/unplugin).
 
-## Template Usage
-
-To use this template, clone it down using:
-
-```bash
-npx degit antfu/unplugin-starter my-unplugin
-```
-
-And do a global replace of `unplugin-starter` with your plugin name.
-
-Then you can start developing your unplugin 🔥
-
-To test your plugin, run: `pnpm run dev`
-To release a new version, run: `pnpm run release`
 
 ## Install
 
 ```bash
-npm i unplugin-starter
+yarn add unplugin-css2vars -D
 ```
 
 <details>
@@ -30,11 +15,18 @@ npm i unplugin-starter
 
 ```ts
 // vite.config.ts
-import Starter from 'unplugin-starter/vite'
+import Css2Vars from 'unplugin-starter/vite'
 
 export default defineConfig({
   plugins: [
-    Starter({ /* options */ }),
+    Css2Vars({
+      colorMap: {
+        '--red-color': 'red',
+        '--theme-color': '#409eff',
+        '--black': '#333333',
+      },
+      exclude: [/\.test\.vue/]
+    }),
   ],
 })
 ```
@@ -48,11 +40,18 @@ Example: [`playground/`](./playground/)
 
 ```ts
 // rollup.config.js
-import Starter from 'unplugin-starter/rollup'
+import Css2Vars from 'unplugin-starter/rollup'
 
 export default {
   plugins: [
-    Starter({ /* options */ }),
+    Css2Vars({
+      colorMap: {
+        '--red-color': 'red',
+        '--theme-color': '#409eff',
+        '--black': '#333333',
+      },
+      exclude: [/\.test\.vue/]
+    }),
   ],
 }
 ```
@@ -68,7 +67,14 @@ export default {
 module.exports = {
   /* ... */
   plugins: [
-    require('unplugin-starter/webpack')({ /* options */ })
+    require('unplugin-starter/webpack')({
+      colorMap: {
+        '--red-color': 'red',
+        '--theme-color': '#409eff',
+        '--black': '#333333',
+      },
+      exclude: [/\.test\.vue/]
+    })
   ]
 }
 ```
@@ -82,7 +88,14 @@ module.exports = {
 // nuxt.config.js
 export default {
   buildModules: [
-    ['unplugin-starter/nuxt', { /* options */ }],
+    ['unplugin-starter/nuxt', {
+      colorMap: {
+        '--red-color': 'red',
+        '--theme-color': '#409eff',
+        '--black': '#333333',
+      },
+      exclude: [/\.test\.vue/]
+    }],
   ],
 }
 ```
@@ -99,25 +112,18 @@ export default {
 module.exports = {
   configureWebpack: {
     plugins: [
-      require('unplugin-starter/webpack')({ /* options */ }),
+      require('unplugin-starter/webpack')({
+        colorMap: {
+          '--red-color': 'red',
+          '--theme-color': '#409eff',
+          '--black': '#333333',
+        },
+        exclude: [/\.test\.vue/]
+      }),
     ],
   },
 }
 ```
 
-<br></details>
 
-<details>
-<summary>esbuild</summary><br>
 
-```ts
-// esbuild.config.js
-import { build } from 'esbuild'
-import Starter from 'unplugin-starter/esbuild'
-
-build({
-  plugins: [Starter()],
-})
-```
-
-<br></details>
