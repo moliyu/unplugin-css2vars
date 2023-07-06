@@ -4,11 +4,9 @@
     "dev": "nodemon -w '../src/**/*.ts' -e .ts -x vite"
   },
   "devDependencies": {
+    "@vitejs/plugin-vue": "^4.2.3",
     "vite": "^4.3.9",
     "vite-plugin-inspect": "^0.7.28",
     "vue": "^3.3.4"
-  },
-  "dependencies": {
-    "@vitejs/plugin-vue": "^4.2.3"
   }
 }
