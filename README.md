@@ -22,6 +22,9 @@ Css2Vars({
 "></html>
 ```
 
+# Tip
+
+最好不要直接匹配`red`,`yellow`这样的单词颜色，这可能会误伤你的代码
 
 
 ## Install
