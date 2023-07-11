@@ -8,11 +8,10 @@ export default defineConfig({
     Vue(),
     Inspect(),
     Unplugin({
-      colorMap: {
-        '--red-color': 'red',
-        '--theme-color': '#409eff',
-        '--black': '#333333',
-      },
+      colorMap: [
+        { color: '#409eff', name: 'theme-color', range: [90, 80, 70] },
+        { color: '#ff0000', name: 'red-color' },
+      ],
       exclude: [/home2/, /index\.html/],
     }),
   ],

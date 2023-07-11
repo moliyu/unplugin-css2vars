@@ -2,6 +2,26 @@
 
 提取项目中的css替换为css变量
 
+# example
+
+```ts
+Css2Vars({
+  colorMap: [
+    { color: '#409eff', name: 'theme-color', range: [90, 80, 70], mixColor: '#ffffff' }, // range生成对应的色阶
+    { color: '#ff0000', name: 'red-color' },
+  ],
+  exclude: [/\.test\.vue/] // 配置排除文件 RegExp | string []
+}),
+// 将会注入
+<html style="
+    --theme-color: #409eff;
+    --theme-color90: #53a8ff;
+    --theme-color80: #66b1ff;
+    --theme-color70: #79bbff;
+    --red-color: #ff0000;
+"></html>
+```
+
 
 
 ## Install
@@ -15,19 +35,29 @@ yarn add unplugin-css2vars -D
 
 ```ts
 // vite.config.ts
-import Css2Vars from 'unplugin-starter/vite'
+import Css2Vars from 'css2vars/vite'
 
 export default defineConfig({
   plugins: [
     Css2Vars({
-      colorMap: {
-        '--red-color': 'red',
-        '--theme-color': '#409eff',
-        '--black': '#333333',
-      },
-      exclude: [/\.test\.vue/]
+      colorMap: [
+        { color: '#409eff', name: 'theme-color', range: [90, 80, 70], mixColor: '#ffffff' },
+        { color: '#ff0000', name: 'red-color' },
+      ],
+      exclude: [/\.test\.vue/] // 配置排除文件 RegExp | string []
     }),
   ],
+})
+
+// main.ts
+import 'virtual:theme'
+
+// changeColor
+import { changeColor } from 'virtual:theme'
+
+changeColor({
+  'theme-color': 'red',
+  'red-color': '#eeeeee'
 })
 ```
 
@@ -40,16 +70,15 @@ Example: [`playground/`](./playground/)
 
 ```ts
 // rollup.config.js
-import Css2Vars from 'unplugin-starter/rollup'
+import Css2Vars from 'css2vars/rollup'
 
 export default {
   plugins: [
     Css2Vars({
-      colorMap: {
-        '--red-color': 'red',
-        '--theme-color': '#409eff',
-        '--black': '#333333',
-      },
+      colorMap: [
+        { color: '#409eff', name: 'theme-color', range: [90, 80, 70] },
+        { color: '#ff0000', name: 'red-color' },
+      ],
       exclude: [/\.test\.vue/]
     }),
   ],
@@ -67,12 +96,11 @@ export default {
 module.exports = {
   /* ... */
   plugins: [
-    require('unplugin-starter/webpack')({
-      colorMap: {
-        '--red-color': 'red',
-        '--theme-color': '#409eff',
-        '--black': '#333333',
-      },
+    require('css2vars/webpack').default({
+      colorMap: [
+        { color: '#409eff', name: 'theme-color', range: [90, 80, 70] },
+        { color: '#ff0000', name: 'red-color' },
+      ],
       exclude: [/\.test\.vue/]
     })
   ]
@@ -88,12 +116,11 @@ module.exports = {
 // nuxt.config.js
 export default {
   buildModules: [
-    ['unplugin-starter/nuxt', {
-      colorMap: {
-        '--red-color': 'red',
-        '--theme-color': '#409eff',
-        '--black': '#333333',
-      },
+    ['css2vars/nuxt', {
+      colorMap: [
+        { color: '#409eff', name: 'theme-color', range: [90, 80, 70] },
+        { color: '#ff0000', name: 'red-color' },
+      ],
       exclude: [/\.test\.vue/]
     }],
   ],
@@ -112,7 +139,7 @@ export default {
 module.exports = {
   configureWebpack: {
     plugins: [
-      require('unplugin-starter/webpack')({
+      require('css2vars/webpack')({
         colorMap: {
           '--red-color': 'red',
           '--theme-color': '#409eff',
