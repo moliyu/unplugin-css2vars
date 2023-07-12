@@ -4,6 +4,8 @@
 
 # example
 
+1.配置要提取的颜色
+
 ```ts
 Css2Vars({
   colorMap: [
@@ -12,7 +14,11 @@ Css2Vars({
   ],
   exclude: [/\.test\.vue/] // 配置排除文件 RegExp | string []
 }),
-// 将会注入
+```
+
+2. 页面会自送注入
+
+```html
 <style type="text/css" theme="custom">
 --theme-color: #409eff;
 --theme-color90: #53a8ff;
