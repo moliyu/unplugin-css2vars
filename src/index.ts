@@ -129,7 +129,7 @@ export default createUnplugin<Options | undefined>((options) => {
       transformInclude(id) {
         if (exclude.test(id))
           return
-        return /\.(vue|css|less|sass|html)$/.test(id)
+        return /\.(vue|css|less|sass)/.test(id)
       },
       transform(code) {
         if (options?.colorMap) {
