@@ -13,13 +13,13 @@ Css2Vars({
   exclude: [/\.test\.vue/] // 配置排除文件 RegExp | string []
 }),
 // 将会注入
-<html style="
-    --theme-color: #409eff;
-    --theme-color90: #53a8ff;
-    --theme-color80: #66b1ff;
-    --theme-color70: #79bbff;
-    --red-color: #ff0000;
-"></html>
+<style type="text/css" theme="custom">
+--theme-color: #409eff;
+--theme-color90: #53a8ff;
+--theme-color80: #66b1ff;
+--theme-color70: #79bbff;
+--red-color: #ff0000;
+</style>
 ```
 
 # Tip
