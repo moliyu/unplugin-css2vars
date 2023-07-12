@@ -1,5 +1,4 @@
 import { createUnplugin } from 'unplugin'
-
 import tinycolor from 'tinycolor2'
 import type { Options } from './types'
 
@@ -129,7 +128,7 @@ export default createUnplugin<Options | undefined>((options) => {
       transformInclude(id) {
         if (exclude.test(id))
           return
-        return /\.(vue|css|less|sass)/.test(id)
+        return /\.(vue|css|less|sass|scss)/.test(id)
       },
       transform(code) {
         if (options?.colorMap) {
