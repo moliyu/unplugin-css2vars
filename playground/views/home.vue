@@ -24,6 +24,9 @@ function change(colorKey, color) {
   <div style="color: #ff0000">
     redcolor
   </div>
+  <div class="test4">
+    test4
+  </div>
   <button @click="change('theme-color', 'yellow')">
     change theme to yellow
   </button>
@@ -38,6 +41,9 @@ function change(colorKey, color) {
 }
 .test2 {
   background: var(--test-color);
+}
+.test4 {
+  color: #ffffff;
 }
 .purple {
   color: #66b1ff;

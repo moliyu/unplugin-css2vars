@@ -12,6 +12,7 @@ export default defineConfig({
         { color: '#409eff', name: 'theme-color', range: [90, 80, 70] },
         { color: '#ff0000', name: 'red-color' },
         { color: '#409eff', name: 'test-color' },
+        { color: '#ffffff', name: 'hancode-menu-active-color' },
       ],
       exclude: [/home2/, /index\.html/],
     }),

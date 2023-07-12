@@ -16,35 +16,51 @@ function inject(colorMap: Record<string, string | string[]>, theme: Options['col
       styleMap[item.name] = item
     })
   }
-  const el = document.getElementsByTagName('html')[0]
-  if (el) {
-    Object.entries(${JSON.stringify(colorMap)}).forEach(([color, key]) => {
-      if (Array.isArray(key)) {
-        key.forEach(k => {
-          el.style.setProperty('--'+k, color)
-        })
-      } else {
-        el.style.setProperty('--'+key, color)
-      }
-    })
+  const el = document.createElement('style')
+  el.setAttribute('type', 'text/css')
+  el.setAttribute('theme', 'custom')
+  let styleObj = {}
+  Object.entries(${JSON.stringify(colorMap)}).forEach(([color, key]) => {
+    if (Array.isArray(key)) {
+      key.forEach(k => {
+        styleObj['--' + k] = color
+      })
+    } else {
+      styleObj['--' + key] = color
+    }
+  })
+  const setColor = () => {
+    const style = Object.entries(styleObj).reduce((res, item) => {
+      const [key, value] = item
+      res += \`\${key}:\${value}\;\n\`
+      return res
+    }, '')
+    el.innerHTML = \`
+    html {
+      \${style}
+    }
+    \`
   }
+  setColor()
+  document.body.appendChild(el)
   export const changeColor = (colors, mixColor='#ffffff') => {
     if (typeof colors !== 'object') return
     Object.keys(colors).forEach(key => {
+      const color = colors[key]
       if (styleMap[key]) {
-        const color = colors[key]
         const colorItem = styleMap[key]
         const { range, name } = colorItem
         if (range && range.length) {
           range.forEach(r => {
             const c = tinycolor.mix(mixColor, color, r).toHexString()
             const varName = name + r
-            el.style.setProperty('--' + varName, c)
+            styleObj['--' + varName] = c
           })
         }
-        el.style.setProperty('--' + name, color)
       }
+      styleObj['--' + key] = color
     })
+    setColor()
   }
   `
 }
