@@ -6,7 +6,7 @@ import type { Options } from './types'
 const isReg = (s: unknown): s is RegExp => Object.prototype.toString.call(s) === '[object RegExp]'
 const isWord = (color: string) => !color.startsWith('#') && !color.startsWith('rgb')
 
-function inject(colorMap: Record<string, string>, theme: Options['colorMap']) {
+function inject(colorMap: Record<string, string | string[]>, theme: Options['colorMap']) {
   return `
   import tinycolor from 'tinycolor2'
   const theme = ${JSON.stringify(theme)}
@@ -19,7 +19,13 @@ function inject(colorMap: Record<string, string>, theme: Options['colorMap']) {
   const el = document.getElementsByTagName('html')[0]
   if (el) {
     Object.entries(${JSON.stringify(colorMap)}).forEach(([color, key]) => {
-      el.style.setProperty('--'+key, color)
+      if (Array.isArray(key)) {
+        key.forEach(k => {
+          el.style.setProperty('--'+k, color)
+        })
+      } else {
+        el.style.setProperty('--'+key, color)
+      }
     })
   }
   export const changeColor = (colors, mixColor='#ffffff') => {
@@ -43,9 +49,22 @@ function inject(colorMap: Record<string, string>, theme: Options['colorMap']) {
   `
 }
 
+function generateMap(map: Record<string, string | string[]>, key: string, value: string) {
+  if (map[key]) {
+    if (typeof map[key] === 'string')
+      map[key] = [map[key] as string]
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    map[key].push(value)
+  }
+  else {
+    map[key] = value
+  }
+}
+
 export default createUnplugin<Options | undefined>((options) => {
   let exclude: RegExp
-  const colorMap: Record<string, string> = {}
+  const colorMap: Record<string, string | string[]> = {}
   const colorReg: Record<string, RegExp> = {}
   if (options?.exclude) {
     exclude = new RegExp(options.exclude.map((item) => {
@@ -59,8 +78,8 @@ export default createUnplugin<Options | undefined>((options) => {
       const regStr = isWord(color) ? `(\\b${color}\\b)` : `(${color})`
       let regArr = [regStr, `${rgbColor}`]
       // 优先hex
-      colorMap[rgbColor] = name
-      colorMap[color] = name
+      generateMap(colorMap, rgbColor, name)
+      generateMap(colorMap, color, name)
       if (range && range.length) {
         regArr = regArr.concat(range.map((r) => {
           const hex = tinycolor.mix(mixColor, color, r).toString('hex')
@@ -68,7 +87,8 @@ export default createUnplugin<Options | undefined>((options) => {
           return `(${hex})`
         }))
       }
-      colorReg[color] = new RegExp(regArr.join('|'), 'ig')
+      if (!colorReg[color])
+        colorReg[color] = new RegExp(regArr.join('|'), 'ig')
     })
   }
 

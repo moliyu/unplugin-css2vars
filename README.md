@@ -24,7 +24,8 @@ Css2Vars({
 
 # Tip
 
-最好不要直接匹配`red`,`yellow`这样的单词颜色，这可能会误伤你的代码
+1. 最好不要直接匹配`red`,`yellow`这样的单词颜色，这可能会误伤你的代码
+2. webpack最好排除文件index.html
 
 
 ## Install

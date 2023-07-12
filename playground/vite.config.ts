@@ -11,6 +11,7 @@ export default defineConfig({
       colorMap: [
         { color: '#409eff', name: 'theme-color', range: [90, 80, 70] },
         { color: '#ff0000', name: 'red-color' },
+        { color: '#409eff', name: 'test-color' },
       ],
       exclude: [/home2/, /index\.html/],
     }),

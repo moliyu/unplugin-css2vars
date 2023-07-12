@@ -15,6 +15,9 @@ function change(colorKey, color) {
   <div class="purple">
     紫颜色
   </div>
+  <div style="color:#409eff">
+    内联测试
+  </div>
   <div class="test2">
     test2
   </div>
@@ -34,7 +37,7 @@ function change(colorKey, color) {
   color: #409eff;
 }
 .test2 {
-  background: #333333;
+  background: var(--test-color);
 }
 .purple {
   color: #66b1ff;
