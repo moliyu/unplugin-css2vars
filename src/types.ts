@@ -7,5 +7,6 @@ export interface ColorItem {
 export interface Options {
   colorMap?: ColorItem[]
   exclude?: Array<RegExp | string>
+  include?: Array<RegExp | string>
   // define your plugin options here
 }

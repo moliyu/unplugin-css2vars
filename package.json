@@ -88,6 +88,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.39.5",
+    "@rollup/pluginutils": "^5.0.2",
     "@types/node": "^18.16.16",
     "@types/tinycolor2": "^1.4.3",
     "bumpp": "^9.1.0",

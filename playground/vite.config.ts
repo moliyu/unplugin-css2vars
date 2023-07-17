@@ -14,7 +14,7 @@ export default defineConfig({
         { color: '#409eff', name: 'test-color' },
         { color: '#ffffff', name: 'hancode-menu-active-color' },
       ],
-      exclude: [/home2/, /index\.html/],
+      exclude: [/\home2/, /index\.html/],
     }),
   ],
 })

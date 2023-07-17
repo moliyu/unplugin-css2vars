@@ -1,5 +1,6 @@
 import { createUnplugin } from 'unplugin'
 import tinycolor from 'tinycolor2'
+import { createFilter } from '@rollup/pluginutils'
 import type { Options } from './types'
 
 const isReg = (s: unknown): s is RegExp => Object.prototype.toString.call(s) === '[object RegExp]'
@@ -78,14 +79,8 @@ function generateMap(map: Record<string, string | string[]>, key: string, value:
 }
 
 export default createUnplugin<Options | undefined>((options) => {
-  let exclude: RegExp
   const colorMap: Record<string, string | string[]> = {}
   const colorReg: Record<string, RegExp> = {}
-  if (options?.exclude) {
-    exclude = new RegExp(options.exclude.map((item) => {
-      return isReg(item) ? item.source : item
-    }).join('|'))
-  }
   if (options?.colorMap) {
     options.colorMap.forEach((colorItem) => {
       const { color, name, range, mixColor = '#ffffff' } = colorItem
@@ -115,7 +110,7 @@ export default createUnplugin<Options | undefined>((options) => {
       name: 'css2Vars',
       enforce: 'pre',
       resolveId(id) {
-        if (id.endsWith('virtual:theme'))
+        if (id === 'virtual:theme')
           return resolveId
       },
       load(id) {
@@ -126,9 +121,15 @@ export default createUnplugin<Options | undefined>((options) => {
         return id === resolveId
       },
       transformInclude(id) {
-        if (exclude.test(id))
-          return
-        return /\.(vue|css|less|sass|scss)/.test(id)
+        // if (exclude.test(id))
+        //   return
+        // return /\.(vue|css|less|sass|scss)/.test(id)
+        // const filter = createFilter(options.)
+        const filter = createFilter(
+          options?.include || [/\.(vue|css|less|sass|scss)/],
+          options?.exclude || ['.git'],
+        )
+        return filter(id)
       },
       transform(code) {
         if (options?.colorMap) {
